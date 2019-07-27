@@ -1,0 +1,35 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int max_count = -1;
+
+vector<int> solution(vector<int> answers) {
+	vector<int> answer;
+	vector<int> correct_temp;
+	vector<vector<int>> answer_case;
+
+	answer_case.push_back({ 1,2,3,4,5 });		//1번 수포자가 찍는 방식
+	answer_case.push_back({ 2,1,2,3,2,4,2,5 });	//2번 수포자가 찍는 방식
+	answer_case.push_back({ 3, 3, 1, 1, 2, 2, 4, 4, 5, 5 });	//3번 수포자가 찍는 방식
+
+	for (int i = 0; i < answer_case.size(); i++) {
+		int correct_count = 0;	//답맞춘 갯수
+		for (int j = 0; j < answers.size(); j++) {
+			if (answers[j] == answer_case[i][j%answer_case[i].size()]) {	
+				correct_count++;	//답이 같으면 갯수를 추가
+			} 
+		}
+		max_count = max_count <= correct_count ? correct_count : max_count;
+		correct_temp.push_back(correct_count);
+	}
+	for (int i = 0; i < answer_case.size(); i++) {
+		if (correct_temp[i] == max_count) {
+				answer.push_back(i + 1);
+		}
+	}
+	return answer;
+}
